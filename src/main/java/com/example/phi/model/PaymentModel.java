@@ -1,7 +1,13 @@
 package com.example.phi.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +18,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "payment_details")
-public class PaymentModel {
+public class PaymentModel implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +35,8 @@ public class PaymentModel {
 	@Column(name = "balance")
 	private double balance;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm", iso = ISO.DATE_TIME)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	@Column(name = "timestamp")
 	private LocalDateTime timestamp;
 

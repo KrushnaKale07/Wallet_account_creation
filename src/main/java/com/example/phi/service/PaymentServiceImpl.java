@@ -1,18 +1,29 @@
 package com.example.phi.service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.phi.model.PaymentModel;
 import com.example.phi.repository.PaymentRepository;
+
+import jakarta.annotation.Resource;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired(required = true)
 	PaymentRepository paymentRepository;
+	
+	@Resource(name = "redisTemplate")
+	private HashOperations<String, String, PaymentModel> hashOperations;
+
 
 	@Override
 	public PaymentModel creareNewPayment(PaymentModel paymentModel) {
@@ -53,4 +64,13 @@ public class PaymentServiceImpl implements PaymentService {
 		creditTransaction.setTimestamp(LocalDateTime.now());
 		paymentRepository.save(creditTransaction);
 	}
+
+	@Override
+	public String setTransation(PaymentModel paymentModel) {
+		System.out.println("Going to set value of transaction i redis");
+		hashOperations.put("PaymentModel", paymentModel.getWalletId(), paymentModel);
+		return "";
+	}
+	
+	
 }

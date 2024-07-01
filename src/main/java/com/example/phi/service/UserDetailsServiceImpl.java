@@ -30,8 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetailsModel fetchUserDetails(UserDetailsModel userDetailsModel) {
 		try {
-			result = userDetailsRepository.getById(userDetailsModel.getId()); // findById(.getWalletID()); //
-																				// findById(Integer.valueOf(userDetailsModel.getUserID()).toString());
+			result = userDetailsRepository.getById(userDetailsModel.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -23,7 +23,7 @@ public class UserDetailsController {
 	public UserDetailsModel registerUser(@RequestBody UserDetailsModel userDetailsModel) {
 		return userDetailsServiceImpl.registerUser(userDetailsModel);
 	}
-//	
+	
 //	public UserDetailsModel creareNewUser(@RequestBody UserDetailsModel userDetailsModel) {
 //		try {
 //			result = userDetailsServiceImpl.creareNewUser(userDetailsModel);
