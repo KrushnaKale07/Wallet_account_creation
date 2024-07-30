@@ -4,7 +4,7 @@ import com.example.phi.model.UserDetailsModel;
 
 public interface UserDetailsService {
 
-	public UserDetailsModel registerUser(UserDetailsModel detailsModel);
+	public String registerUser(UserDetailsModel detailsModel);
 	
 //	public boolean validateWalletID(UUID walletID);
 	

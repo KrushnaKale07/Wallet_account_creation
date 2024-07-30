@@ -20,9 +20,8 @@ public class UserDetailsController {
 
 	@PostMapping("/register")
 	public String registerUser(@RequestBody UserDetailsModel userDetailsModel) {
-		userDetailsServiceImpl.registerUser(userDetailsModel);
-		return "Your user id is = '" + userDetailsModel.getId() + "' and your wallet id is = '"
-				+ userDetailsModel.getWalletID() + "'. You can search your registory using your user id.";
+		return userDetailsServiceImpl.registerUser(userDetailsModel);
+		 
 	}
 
 	@GetMapping("/validate/{id}")

@@ -1,7 +1,6 @@
 package com.example.phi.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,12 +18,12 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "payment_details")
 public class PaymentModel implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private int id;
 
 	@Column(name = "walletId")
 	private String walletId;
@@ -43,6 +42,12 @@ public class PaymentModel implements Serializable {
 	@Column(name = "description")
 	private String description;
 
+	@Column(name = "fromUserId")
+	private Integer fromUserId;
+
+	@Column(name = "toUserId")
+	private Integer toUserId;
+
 	@Column(name = "fromWalletId")
 	private String fromWalletId;
 
@@ -50,13 +55,13 @@ public class PaymentModel implements Serializable {
 	private String toWalletId;
 
 	@Column(name = "amountToTransfer")
-	private double amountToTransfer;
+	private int amountToTransfer;
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -64,8 +69,8 @@ public class PaymentModel implements Serializable {
 		return walletId;
 	}
 
-	public void setWalletId(String walletId) {
-		this.walletId = walletId;
+	public void setWalletId(String walletId2) {
+		this.walletId = walletId2;
 	}
 
 	public double getAmount() {
@@ -116,18 +121,35 @@ public class PaymentModel implements Serializable {
 		this.toWalletId = toWalletId;
 	}
 
-	public double getAmountToTransfer() {
+	public Integer getFromUserId() {
+		return fromUserId;
+	}
+
+	public void setFromUserId(Integer fromUserId) {
+		this.fromUserId = fromUserId;
+	}
+
+	public Integer getToUserId() {
+		return toUserId;
+	}
+
+	public void setToUserId(Integer toUserId) {
+		this.toUserId = toUserId;
+	}
+
+	public int getAmountToTransfer() {
 		return amountToTransfer;
 	}
 
-	public void setAmountToTransfer(double amountToTransfer) {
+	public void setAmountToTransfer(int amountToTransfer) {
 		this.amountToTransfer = amountToTransfer;
 	}
 
 	@Override
 	public String toString() {
 		return "PaymentModel [id=" + id + ", walletId=" + walletId + ", amount=" + amount + ", balance=" + balance
-				+ ", timestamp=" + timestamp + ", description=" + description + ", fromWalletId=" + fromWalletId
-				+ ", toWalletId=" + toWalletId + ", amountToTransfer=" + amountToTransfer + "]";
+				+ ", timestamp=" + timestamp + ", description=" + description + ", fromUserId=" + fromUserId
+				+ ", toUserId=" + toUserId + ", fromWalletId=" + fromWalletId + ", toWalletId=" + toWalletId
+				+ ", amountToTransfer=" + amountToTransfer + "]";
 	}
 }

@@ -24,9 +24,9 @@ public class StatementServiceImpl implements StatementService {
 		List<PaymentModel> transactions = paymentRepository.findByWalletIdAndTimestampBetween(walletId, startDate,
 				endDate);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        String formattedStartDate = startDate.format(formatter);
-        String formattedEndDate = endDate.format(formatter);
-        String fileName = "statement_" + walletId + "_" + formattedStartDate + "_" + formattedEndDate + ".csv";
+		String formattedStartDate = startDate.format(formatter);
+		String formattedEndDate = endDate.format(formatter);
+		String fileName = "statement_" + walletId + "_" + formattedStartDate + "_" + formattedEndDate + ".csv";
 		FileWriter fileWriter = new FileWriter(fileName);
 
 		// Writing CSV header
@@ -35,7 +35,7 @@ public class StatementServiceImpl implements StatementService {
 		// Writing transaction data
 		for (PaymentModel paymentModel : transactions) {
 
-			fileWriter.append(String.valueOf(paymentModel.getId())).append(",").append(paymentModel.getWalletId())
+			fileWriter.append(String.valueOf(paymentModel.getId())).append(",").append(paymentModel.getWalletId().toString())
 					.append(",").append(paymentModel.getDescription()).append(",")
 					.append(String.valueOf(paymentModel.getAmount())).append(",")
 					.append(paymentModel.getTimestamp().toString()).append("\n");
@@ -44,5 +44,4 @@ public class StatementServiceImpl implements StatementService {
 		fileWriter.flush();
 		fileWriter.close();
 	}
-
 }

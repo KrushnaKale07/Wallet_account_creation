@@ -15,9 +15,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	UserDetailsRepository userDetailsRepository;
 
 	@Override
-	public UserDetailsModel registerUser(UserDetailsModel userDetailsModel) {
+	public String registerUser(UserDetailsModel userDetailsModel) {
 		userDetailsModel.setWalletID(UUID.randomUUID().toString());
-		return userDetailsRepository.save(userDetailsModel);
+		userDetailsRepository.save(userDetailsModel);
+		return "Your user id is = '" + userDetailsModel.getId() + "' and your wallet id is = '"
+		+ userDetailsModel.getWalletID() + "'. You can search your registory using your user id.";
 	}
 
 //	@Override
