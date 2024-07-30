@@ -1,5 +1,7 @@
 package com.example.phi.model;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
+@Component
 @Table(name = "user_Wallet")
 public class UserDetailsModel {
 
@@ -30,12 +33,15 @@ public class UserDetailsModel {
 	@Column(name = "walletID")
 	private String walletID;
 
+	@Column(name = "balance")
+	private double balance;
+
 	public String getWalletID() {
 		return walletID;
 	}
 
-	public void setWalletID(String walletID) {
-		this.walletID = walletID;
+	public void setWalletID(String string) {
+		this.walletID = string;
 	}
 
 	public String getFirstName() {
@@ -78,24 +84,33 @@ public class UserDetailsModel {
 		this.id = id;
 	}
 
-	public UserDetailsModel(int id, int userWalletID, String firstName, String lastName, String emailID,
-			String phoneNo) {
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public UserDetailsModel() {
+		super();
+	}
+
+	public UserDetailsModel(int id, String firstName, String lastName, String emailID, String phoneNo, String walletID,
+			double balance) {
 		super();
 		this.id = id;
-		this.walletID = walletID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailID = emailID;
 		this.phoneNo = phoneNo;
-	}
-
-	public UserDetailsModel() {
+		this.walletID = walletID;
+		this.balance = balance;
 	}
 
 	@Override
 	public String toString() {
-		return "UserDetailsModel [id = " + id + ", walletID =" + walletID + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", emailID=" + emailID + ", phoneNo=" + phoneNo + "]";
+		return "UserDetailsModel [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", emailID="
+				+ emailID + ", phoneNo=" + phoneNo + ", walletID=" + walletID + ", balance=" + balance + "]";
 	}
-
 }

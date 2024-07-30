@@ -14,36 +14,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	UserDetailsRepository userDetailsRepository;
 
-	UserDetailsModel result = null;
-
-//	@Override
-//	public UserDetailsModel creareNewUser(UserDetailsModel detailsModel) {
-//
-//		try {
-//			result = userDetailsRepository.save(detailsModel);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
-
 	@Override
-	public UserDetailsModel fetchUserDetails(UserDetailsModel userDetailsModel) {
-		try {
-			result = userDetailsRepository.getById(userDetailsModel.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	@Override
-	public UserDetailsModel findByWalletId(String walletId) {
-		return result;
-	}
-
 	public UserDetailsModel registerUser(UserDetailsModel userDetailsModel) {
 		userDetailsModel.setWalletID(UUID.randomUUID().toString());
 		return userDetailsRepository.save(userDetailsModel);
+	}
+
+//	@Override
+//	public boolean validateWalletID(UUID walletID) {
+//		return userDetailsRepository.equals(walletID);
+//	}
+
+	@Override
+	public boolean validateWalletID(Integer id) {
+		return userDetailsRepository.existsById(id);
 	}
 }
