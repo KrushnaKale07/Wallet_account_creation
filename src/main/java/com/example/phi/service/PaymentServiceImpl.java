@@ -2,10 +2,13 @@ package com.example.phi.service;
 
 import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.stereotype.Service;
 
+import com.example.phi.controller.PaymentsController;
 import com.example.phi.model.PaymentModel;
 import com.example.phi.model.UserDetailsModel;
 import com.example.phi.repository.PaymentRepository;
@@ -15,6 +18,8 @@ import jakarta.annotation.Resource;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
+
+	private static final Logger logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
 	@Autowired(required = true)
 	PaymentRepository paymentRepository;
@@ -33,6 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public String topUpWallet(PaymentModel paymentModel) {
+		logger.info("inside PaymentServiceImpl.topUpWallet()");
 		String reply = "";
 		try {
 			boolean s = userDetailsServiceImpl.validateWalletID(paymentModel.getToUserId()); // Validation of user id
@@ -62,6 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public String transfer(PaymentModel paymentModel) {
+		logger.info("inside PaymentServiceImpl.transfer()");
 		try {
 			if (userDetailsServiceImpl.validateWalletID(paymentModel.getFromUserId())
 					&& userDetailsServiceImpl.validateWalletID(paymentModel.getToUserId())) { // to verify both wallet
@@ -117,7 +124,8 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public String setTransation(PaymentModel paymentModel) {
-		System.out.println("Going to set value of transaction i redis");
+		logger.info("inside PaymentServiceImpl.setTransation()");
+		logger.info("Going to set value of transaction i redis [{}]");
 		paymentRepository.save(paymentModel);
 		hashOperations.put("PaymentModel", paymentModel.getWalletId().toString(), paymentModel);
 		return "";
@@ -125,6 +133,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Double checkBalance(int id) {
+		logger.info("inside PaymentServiceImpl.checkBalance()");
 		UserDetailsModel userDetailsModel = userDetailsRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Account not found"));
 		return userDetailsModel.getBalance();

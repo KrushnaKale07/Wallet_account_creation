@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +17,15 @@ import com.example.phi.repository.PaymentRepository;
 @Service
 public class StatementServiceImpl implements StatementService {
 
+	private static final Logger logger = LoggerFactory.getLogger(StatementServiceImpl.class);
+	
 	@Autowired
 	PaymentRepository paymentRepository;
 
 	@Override
 	public void generateStatementFile(String walletId, LocalDateTime startDate, LocalDateTime endDate)
 			throws IOException {
+		logger.info("inside StatementServiceImpl.generateStatementFile()");
 		List<PaymentModel> transactions = paymentRepository.findByWalletIdAndTimestampBetween(walletId, startDate,
 				endDate);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
@@ -41,7 +46,7 @@ public class StatementServiceImpl implements StatementService {
 					.append(paymentModel.getTimestamp().toString()).append("\n");
 		}
 
-		fileWriter.flush();
+//		fileWriter.flush();
 		fileWriter.close();
 	}
 }

@@ -2,7 +2,10 @@ package com.example.phi.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,16 +21,20 @@ import com.example.phi.service.WalletService;
 @RequestMapping("/api/wallet")
 public class WalletController {
 
+	private static final Logger logger = LoggerFactory.getLogger(WalletController.class);
+
 	@Autowired
 	private WalletService walletService;
 
 	@PostMapping("/register")
 	public UserDetailsModel registerUser(@RequestBody UserDetailsModel userDetailsModel) {
+		logger.info("inside WalletController.registerUser()");
 		return walletService.registerUser(userDetailsModel);
 	}
 
 	@PostMapping("/top-up")
 	public String topUpWallet(@RequestParam String walletId, @RequestParam double amount) {
+		logger.info("inside WalletController.topUpWallet()");
 		walletService.topUpWallet(walletId, amount);
 		return "Wallet topped up successfully.";
 	}
@@ -35,6 +42,7 @@ public class WalletController {
 	@PostMapping("/transfer")
 	public String transfer(@RequestParam String fromWalletId, @RequestParam String toWalletId,
 			@RequestParam double amount) {
+		logger.info("inside WalletController.transfer()");
 		walletService.transfer(fromWalletId, toWalletId, amount);
 		return "Transfer completed successfully.";
 	}
@@ -42,6 +50,7 @@ public class WalletController {
 	@GetMapping("/statement")
 	public String generateStatement(@RequestParam String walletId, @RequestParam String startDate,
 			@RequestParam String endDate) {
+		logger.info("inside WalletController.generateStatement()");
 		try {
 			LocalDateTime start = LocalDateTime.parse(startDate);
 			LocalDateTime end = LocalDateTime.parse(endDate);

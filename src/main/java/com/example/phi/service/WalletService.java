@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +25,16 @@ public class WalletService {
 	@Autowired
 	private PaymentRepository paymentRepository;
 
+	private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
+
 	public UserDetailsModel registerUser(UserDetailsModel userDetailsModel) {
+		logger.info("inside WalletService.registerUser()");
 		userDetailsModel.setWalletID(UUID.randomUUID().toString());
 		return userDetailsRepository.save(userDetailsModel);
 	}
 
 	public void topUpWallet(String walletId, double amount) {
+		logger.info("inside WalletService.topUpWallet()");
 		PaymentModel paymentModel = new PaymentModel();
 		paymentModel.setWalletId(walletId);
 		paymentModel.setDescription("Top-up");
@@ -38,6 +44,7 @@ public class WalletService {
 	}
 
 	public void transfer(String fromWalletId, String toWalletId, double amount) {
+		logger.info("inside WalletService.transfer()");
 		// Debit from sender's wallet
 		PaymentModel debitTransaction = new PaymentModel();
 		debitTransaction.setWalletId(fromWalletId);
@@ -57,6 +64,7 @@ public class WalletService {
 
 	public void generateStatementFile(String walletId, LocalDateTime startDate, LocalDateTime endDate)
 			throws IOException {
+		logger.info("inside WalletService.generateStatementFile()");
 		List<PaymentModel> transactions = paymentRepository.findByWalletIdAndTimestampBetween(walletId, startDate,
 				endDate);
 		String fileName = "statement_" + walletId + "_" + startDate + "_" + endDate + ".csv";
@@ -68,9 +76,9 @@ public class WalletService {
 		// Writing transaction data
 		for (PaymentModel paymentModel : transactions) {
 
-			fileWriter.append(String.valueOf(paymentModel.getId())).append(",").append(paymentModel.getWalletId())
-					.append(",").append(paymentModel.getDescription()).append(",")
-					.append(String.valueOf(paymentModel.getAmount())).append(",")
+			fileWriter.append(String.valueOf(paymentModel.getId())).append(",")
+					.append(paymentModel.getWalletId().toString()).append(",").append(paymentModel.getDescription())
+					.append(",").append(String.valueOf(paymentModel.getAmount())).append(",")
 					.append(paymentModel.getTimestamp().toString()).append("\n");
 		}
 
